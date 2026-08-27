@@ -3,6 +3,7 @@ import { AppStoreProvider } from './state/store';
 import LandingPage from './pages/LandingPage';
 import PortfoliosPage from './pages/PortfoliosPage';
 import PortfolioDetailPage from './pages/PortfolioDetailPage';
+import InitiativesPage from './pages/InitiativesPage';
 import InitiativeFormPage from './pages/InitiativeFormPage';
 import NeedsAttentionPage from './pages/NeedsAttentionPage';
 import SettingsPage from './pages/SettingsPage';
@@ -17,6 +18,7 @@ function App() {
             Overview
           </NavLink>
           <NavLink to="/portfolios">Portfolios</NavLink>
+          <NavLink to="/initiatives">Initiatives</NavLink>
           <NavLink to="/needs-attention">Needs Attention</NavLink>
           <NavLink to="/settings">Settings</NavLink>
         </nav>
@@ -25,6 +27,7 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/portfolios" element={<PortfoliosPage />} />
             <Route path="/portfolios/:id" element={<PortfolioDetailPage />} />
+            <Route path="/initiatives" element={<InitiativesPage />} />
             <Route path="/initiatives/new" element={<InitiativeFormPage />} />
             <Route path="/initiatives/:id/edit" element={<InitiativeFormPage />} />
             <Route path="/needs-attention" element={<NeedsAttentionPage />} />
