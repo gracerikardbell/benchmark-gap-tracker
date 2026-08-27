@@ -26,6 +26,9 @@ export default function LandingPage() {
   const atRiskInitiatives = rollups.reduce((sum, r) => sum + r.atRiskCount, 0);
   const currentYear = new Date().getFullYear();
   const gapToGoalRemaining = data.settings.overallTarget - totalDelivered(data.initiatives);
+  const finalPoint = series[series.length - 1];
+  const unallocatedGap = finalPoint.benchmarkTarget - finalPoint.currentTrajectory;
+  const allocatedGap = finalPoint.currentTrajectory - finalPoint.momentumCase;
 
   return (
     <div>
@@ -77,50 +80,71 @@ export default function LandingPage() {
           Benchmark ambition vs. current trajectory (momentum + initiatives) vs. momentum case
           (continuous improvement only, no transformation), by year through 2030.
         </p>
+      </div>
 
+      <section className="chart-section">
         <div className="chart-container">
-          <ResponsiveContainer width="100%" height={360}>
+          <ResponsiveContainer width="100%" height={320}>
             <LineChart data={series} margin={{ top: 16, right: 24, bottom: 8, left: 8 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="year" />
-              <YAxis tickFormatter={(v) => formatCurrency(v)} width={80} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e9ebef" />
+              <XAxis dataKey="year" axisLine={false} tickLine={false} />
+              <YAxis
+                tickFormatter={(v) => formatCurrency(v)}
+                width={80}
+                axisLine={false}
+                tickLine={false}
+              />
               <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-              <Legend />
+              <Legend iconType="plainline" />
               <ReferenceLine
                 x={currentYear}
-                stroke="#94a3b8"
+                stroke="#cbd5e1"
                 strokeDasharray="4 4"
-                label={{ value: 'Today', position: 'insideTopRight', fill: '#64748b', fontSize: 12 }}
+                label={{ value: 'Today', position: 'insideTopRight', fill: '#94a3b8', fontSize: 12 }}
               />
               <Line
-                type="monotone"
+                type="natural"
                 dataKey="benchmarkTarget"
-                name="Benchmark / Ambition"
-                stroke="#8884d8"
-                strokeWidth={2}
+                name="Benchmark Savings"
+                stroke="#2f6fed"
+                strokeWidth={3}
                 dot={false}
               />
               <Line
-                type="monotone"
+                type="natural"
                 dataKey="currentTrajectory"
-                name="Current Trajectory"
-                stroke="#2f7d5b"
-                strokeWidth={2}
+                name="Projected Target (with initiatives)"
+                stroke="#e2872f"
+                strokeWidth={3}
                 dot={false}
               />
               <Line
-                type="monotone"
+                type="natural"
                 dataKey="momentumCase"
                 name="Momentum Case (no transformation)"
-                stroke="#c98a2b"
-                strokeWidth={2}
-                strokeDasharray="6 4"
+                stroke="#f0b23a"
+                strokeWidth={3}
                 dot={false}
               />
             </LineChart>
           </ResponsiveContainer>
-        </div>
 
+          <div className="gap-callouts">
+            <div className="gap-callout">
+              <span className="gap-callout-swatch gap-callout-swatch-unallocated" />
+              <span className="gap-callout-label">Unallocated gap to goal ({finalPoint.year})</span>
+              <span className="gap-callout-value">{formatCurrency(unallocatedGap)}</span>
+            </div>
+            <div className="gap-callout">
+              <span className="gap-callout-swatch gap-callout-swatch-allocated" />
+              <span className="gap-callout-label">Allocated gap to goal ({finalPoint.year})</span>
+              <span className="gap-callout-value">{formatCurrency(allocatedGap)}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="page">
         <h2>Explore</h2>
         <div className="capability-grid">
           <Link to="/portfolios" className="capability-card">

@@ -285,6 +285,53 @@ body {
   padding: 1rem;
 }
 
+.chart-section {
+  padding: 0 2rem 1.5rem;
+}
+
+.chart-section .chart-container {
+  max-width: none;
+}
+
+.gap-callouts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 0.75rem 1rem 0.25rem;
+  border-top: 1px solid var(--color-border);
+  margin-top: 0.5rem;
+}
+
+.gap-callout {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.gap-callout-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.gap-callout-swatch-unallocated {
+  background: #2f6fed;
+}
+
+.gap-callout-swatch-allocated {
+  background: #e2872f;
+}
+
+.gap-callout-label {
+  color: var(--color-muted);
+}
+
+.gap-callout-value {
+  font-weight: 700;
+}
+
 .filter-bar {
   display: flex;
   align-items: center;

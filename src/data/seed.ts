@@ -190,7 +190,7 @@ const initiatives: Initiative[] = [
   },
 ];
 
-export const schemaVersion = 3;
+export const schemaVersion = 5;
 
 export function getSeedData(): AppData {
   return {
@@ -198,15 +198,15 @@ export function getSeedData(): AppData {
     portfolios,
     initiatives,
     settings: {
-      overallTarget: 20_000_000_000,
+      overallTarget: 28_000_000_000,
       yearlyMilestones: [
-        { year: 2024, target: 1_000_000_000 },
-        { year: 2025, target: 6_000_000_000 },
-        { year: 2026, target: 11_000_000_000 },
-        { year: 2027, target: 13_500_000_000 },
-        { year: 2028, target: 16_000_000_000 },
-        { year: 2029, target: 18_000_000_000 },
-        { year: 2030, target: 20_000_000_000 },
+        { year: 2024, target: 4_000_000_000 },
+        { year: 2025, target: 9_000_000_000 },
+        { year: 2026, target: 15_000_000_000 },
+        { year: 2027, target: 19_000_000_000 },
+        { year: 2028, target: 23_000_000_000 },
+        { year: 2029, target: 26_000_000_000 },
+        { year: 2030, target: 28_000_000_000 },
       ],
       momentumTrajectory: [
         { year: 2024, target: 300_000_000 },
