@@ -24,30 +24,32 @@ export function buildGapToGoalSeries(
   const currentYear = today.getFullYear();
   const totalActual = initiatives.reduce((sum, i) => sum + i.actualSavings, 0);
   const totalEstimated = initiatives.reduce((sum, i) => sum + i.estimatedSavings, 0);
-  const lastMilestoneYear = settings.yearlyMilestones[settings.yearlyMilestones.length - 1]?.year ?? currentYear;
+  const sortedMilestones = settings.yearlyMilestones.slice().sort((a, b) => a.year - b.year);
+  const firstYear = sortedMilestones[0]?.year ?? currentYear;
+  const lastMilestoneYear = sortedMilestones[sortedMilestones.length - 1]?.year ?? currentYear;
   const momentumByYear = new Map(settings.momentumTrajectory.map((m) => [m.year, m.target]));
 
-  return settings.yearlyMilestones
-    .slice()
-    .sort((a, b) => a.year - b.year)
-    .map(({ year, target }) => {
-      let initiativeContribution: number;
-      if (year <= currentYear) {
-        initiativeContribution = totalActual;
-      } else {
-        const progress = Math.min(1, (year - currentYear) / Math.max(1, lastMilestoneYear - currentYear));
-        initiativeContribution = totalActual + (totalEstimated - totalActual) * progress;
-      }
+  return sortedMilestones.map(({ year, target }) => {
+    let initiativeContribution: number;
+    if (year <= currentYear) {
+      // Ramp delivered savings from 0 at the first milestone year up to total
+      // actual-to-date at the current year, rather than treating history as flat.
+      const rampProgress = (year - firstYear) / Math.max(1, currentYear - firstYear);
+      initiativeContribution = totalActual * Math.min(1, Math.max(0, rampProgress));
+    } else {
+      const progress = Math.min(1, (year - currentYear) / Math.max(1, lastMilestoneYear - currentYear));
+      initiativeContribution = totalActual + (totalEstimated - totalActual) * progress;
+    }
 
-      const momentumCase = momentumByYear.get(year) ?? 0;
+    const momentumCase = momentumByYear.get(year) ?? 0;
 
-      return {
-        year,
-        benchmarkTarget: target,
-        currentTrajectory: momentumCase + initiativeContribution,
-        momentumCase,
-      };
-    });
+    return {
+      year,
+      benchmarkTarget: target,
+      currentTrajectory: momentumCase + initiativeContribution,
+      momentumCase,
+    };
+  });
 }
 
 export function totalIdentified(initiatives: Initiative[]): number {

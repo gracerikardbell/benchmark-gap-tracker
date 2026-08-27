@@ -37,12 +37,15 @@ describe('buildGapToGoalSeries', () => {
     expect(series.map((p) => p.year)).toEqual([2024, 2025, 2026]);
   });
 
-  it('uses actual savings plus momentum baseline for years at or before today', () => {
-    const series = buildGapToGoalSeries(settings, initiatives, new Date('2025-01-01'));
+  it('ramps delivered contribution from 0 at the first milestone year to actuals at today', () => {
+    const series = buildGapToGoalSeries(settings, initiatives, new Date('2026-01-01'));
     const point2024 = series.find((p) => p.year === 2024)!;
     const point2025 = series.find((p) => p.year === 2025)!;
-    expect(point2024.currentTrajectory).toBe(50 + 300);
-    expect(point2025.currentTrajectory).toBe(100 + 300);
+    const point2026 = series.find((p) => p.year === 2026)!;
+    // ramp: 2024 -> 0% of actual, 2025 -> 50%, 2026 (today) -> 100%
+    expect(point2024.currentTrajectory).toBe(50 + 0);
+    expect(point2025.currentTrajectory).toBe(100 + 150);
+    expect(point2026.currentTrajectory).toBe(150 + 300);
   });
 
   it('projects toward total estimated savings plus momentum for future years', () => {
@@ -58,4 +61,5 @@ describe('buildGapToGoalSeries', () => {
     expect(point2025.momentumCase).toBe(100);
   });
 });
+
 
