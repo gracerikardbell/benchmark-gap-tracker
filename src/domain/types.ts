@@ -28,7 +28,10 @@ export interface YearlyMilestone {
 
 export interface BenchmarkSettings {
   overallTarget: number;
+  /** Fixed benchmark ambition per year — the top line on the gap-to-goal chart. */
   yearlyMilestones: YearlyMilestone[];
+  /** Continuous-improvement / BAU baseline with no transformation initiatives — the bottom line. */
+  momentumTrajectory: YearlyMilestone[];
 }
 
 export interface AppData {

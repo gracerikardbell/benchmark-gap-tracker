@@ -37,7 +37,8 @@ stage: data-model
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | overallTarget | number | Yes | Total $ benchmark commitment |
-| yearlyMilestones | `{ year: number; target: number }[]` | Yes | Cumulative target per year through 2030, drives gap-to-goal chart |
+| yearlyMilestones | `{ year: number; target: number }[]` | Yes | Fixed benchmark ambition per year (top chart line) |
+| momentumTrajectory | `{ year: number; target: number }[]` | Yes | Continuous-improvement / BAU baseline with no transformation initiatives, per year (bottom chart line) |
 
 ## Validation Rules
 
@@ -59,9 +60,12 @@ stage: data-model
 - **isPortfolioAtRisk**: true if any of its initiatives is at risk
 - **Portfolio rollups**: initiative count, % on track vs. at risk, sum of
   estimated/actual savings
-- **Gap-to-goal series**: per year through 2030, `{ year, targetCumulative,
-  actualProjectedCumulative }` derived from `BenchmarkSettings.yearlyMilestones`
-  and sum of initiative actual (past years) / estimated (future years) savings
+- **Gap-to-goal series**: per year through 2030, `{ year, benchmarkTarget,
+  currentTrajectory, momentumCase }` — `benchmarkTarget` from
+  `BenchmarkSettings.yearlyMilestones`, `momentumCase` from
+  `BenchmarkSettings.momentumTrajectory`, and `currentTrajectory` = momentum
+  case + sum of initiative actual (past years) / estimated (future years)
+  savings
 
 ## State Transitions
 

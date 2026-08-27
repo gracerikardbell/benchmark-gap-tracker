@@ -74,7 +74,8 @@ export default function LandingPage() {
       <div className="page">
         <h2>Gap to goal</h2>
         <p className="page-subtitle">
-          Cumulative benchmark target vs. actual and projected savings, by year through 2030.
+          Benchmark ambition vs. current trajectory (momentum + initiatives) vs. momentum case
+          (continuous improvement only, no transformation), by year through 2030.
         </p>
 
         <div className="chart-container">
@@ -93,18 +94,27 @@ export default function LandingPage() {
               />
               <Line
                 type="monotone"
-                dataKey="targetCumulative"
-                name="Benchmark Target"
+                dataKey="benchmarkTarget"
+                name="Benchmark / Ambition"
                 stroke="#8884d8"
                 strokeWidth={2}
                 dot={false}
               />
               <Line
                 type="monotone"
-                dataKey="actualProjectedCumulative"
-                name="Actual + Projected"
+                dataKey="currentTrajectory"
+                name="Current Trajectory"
                 stroke="#2f7d5b"
                 strokeWidth={2}
+                dot={false}
+              />
+              <Line
+                type="monotone"
+                dataKey="momentumCase"
+                name="Momentum Case (no transformation)"
+                stroke="#c98a2b"
+                strokeWidth={2}
+                strokeDasharray="6 4"
                 dot={false}
               />
             </LineChart>

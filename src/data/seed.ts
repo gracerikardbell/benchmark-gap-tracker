@@ -190,7 +190,7 @@ const initiatives: Initiative[] = [
   },
 ];
 
-export const schemaVersion = 1;
+export const schemaVersion = 2;
 
 export function getSeedData(): AppData {
   return {
@@ -207,6 +207,15 @@ export function getSeedData(): AppData {
         { year: 2028, target: 11_500_000_000 },
         { year: 2029, target: 13_000_000_000 },
         { year: 2030, target: 14_000_000_000 },
+      ],
+      momentumTrajectory: [
+        { year: 2024, target: 300_000_000 },
+        { year: 2025, target: 1_000_000_000 },
+        { year: 2026, target: 1_800_000_000 },
+        { year: 2027, target: 2_600_000_000 },
+        { year: 2028, target: 3_400_000_000 },
+        { year: 2029, target: 4_200_000_000 },
+        { year: 2030, target: 5_000_000_000 },
       ],
     },
   };

@@ -9,6 +9,11 @@ const settings: BenchmarkSettings = {
     { year: 2025, target: 500 },
     { year: 2026, target: 1000 },
   ],
+  momentumTrajectory: [
+    { year: 2024, target: 50 },
+    { year: 2025, target: 100 },
+    { year: 2026, target: 150 },
+  ],
 };
 
 const initiatives: Initiative[] = [
@@ -32,17 +37,25 @@ describe('buildGapToGoalSeries', () => {
     expect(series.map((p) => p.year)).toEqual([2024, 2025, 2026]);
   });
 
-  it('uses actual savings for years at or before today', () => {
+  it('uses actual savings plus momentum baseline for years at or before today', () => {
     const series = buildGapToGoalSeries(settings, initiatives, new Date('2025-01-01'));
     const point2024 = series.find((p) => p.year === 2024)!;
     const point2025 = series.find((p) => p.year === 2025)!;
-    expect(point2024.actualProjectedCumulative).toBe(300);
-    expect(point2025.actualProjectedCumulative).toBe(300);
+    expect(point2024.currentTrajectory).toBe(50 + 300);
+    expect(point2025.currentTrajectory).toBe(100 + 300);
   });
 
-  it('projects toward total estimated savings for future years', () => {
+  it('projects toward total estimated savings plus momentum for future years', () => {
     const series = buildGapToGoalSeries(settings, initiatives, new Date('2024-01-01'));
     const point2026 = series.find((p) => p.year === 2026)!;
-    expect(point2026.actualProjectedCumulative).toBe(800);
+    expect(point2026.currentTrajectory).toBe(150 + 800);
+  });
+
+  it('exposes benchmark target and momentum case directly', () => {
+    const series = buildGapToGoalSeries(settings, initiatives, new Date('2024-01-01'));
+    const point2025 = series.find((p) => p.year === 2025)!;
+    expect(point2025.benchmarkTarget).toBe(500);
+    expect(point2025.momentumCase).toBe(100);
   });
 });
+
